@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use  App\Http\Controllers\AuthManager;
+use App\Http\Controllers\ForgetPasswordManager;
 use  App\Http\Controllers\UploadManager;
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,6 @@ Route::get('/logout', [AuthManager::class, 'logout'])->name('logout');
 Route::get('/upload', [UploadManager::class, 'upload'])->name('upload')->middleware(["auth"]);
 Route::post('/upload', [UploadManager::class, 'uploadPost'])->name('upload.post');
 
-
 //cada vez que creemos una nueva ruta en donde el usuario debe estar logeado para verla  debemos agregarle la directiva auth
 //sino esta logeado, sera redirigido al login
 Route::group(['middleware'=> 'auth'], function() {
@@ -36,3 +36,17 @@ Route::group(['middleware'=> 'auth'], function() {
     });
 
 });
+//rutas para manejar la opcion de OLVIDE CONTRASEÑA
+Route::get('/forget-password', [ForgetPasswordManager::class, 'forgetPassword'])
+->name( 'forget.password' );
+
+Route::post('/forget-password', [ForgetPasswordManager::class, 'forgetPasswordPost'])
+->name( 'forget.password.post' );
+
+Route::get('/reset-password/{token}', [ForgetPasswordManager::class, 'resetPassword'])
+->name( 'reset.password' );
+
+Route::post('/reset-password', [ForgetPasswordManager::class, 'resetPasswordPost'])
+->name( 'reset.password.post' );
+
+
